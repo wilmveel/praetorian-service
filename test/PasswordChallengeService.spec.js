@@ -8,7 +8,7 @@ require.extensions['.sol'] = function (module, filename) {
     module.exports = fs.readFileSync(filename, 'utf8');
 };
 
-var passwordDelegateServices = require('../src/passwordDelegateServices');
+var passwordChallengeServices = require('../src/PasswordChallengeService');
 
 describe('services', function () {
 
@@ -31,41 +31,48 @@ describe('services', function () {
         });
     });
 
-    var service = passwordDelegateServices(web3);
-    var passwordDelegateContract;
+    var service = passwordChallengeServices(web3);
+    var passwordChallengeContract;
 
-    it('should create passwordDelegate contract', function (done) {
+    it('should create passwordChallenge contract', function (done) {
         service.create("Willem123", function(err, contract){
             if(err) return done(err)
-            passwordDelegateContract = contract
+            passwordChallengeContract = contract
             done();
         });
     });
 
-    it('should verify passwordDelegate contract and send success', function (done) {
-        service.verify(passwordDelegateContract.address, "Willem123", function(err, event){
+    it('should verify passwordChallenge contract and send success', function (done) {
+        service.verify(passwordChallengeContract.address, "Willem123", function(err, event){
             assert.equal('success', event);
             done();
         });
     });
 
-    it('should verify passwordDelegate contract and send success', function (done) {
-        service.verify(passwordDelegateContract.address, "Willem456", function(err, event){
+    it('should verify passwordChallenge contract and send success', function (done) {
+        service.verify(passwordChallengeContract.address, "Willem456", function(err, event){
             assert.equal('error', event);
             done();
         });
     });
 
     it('should change password', function (done) {
-        service.change(passwordDelegateContract.address, "Willem123", "Willem456", function(err, event){
+        service.change(passwordChallengeContract.address, "Willem123", "Willem456", function(err, event){
             assert.equal('success', event);
             done();
         });
     });
 
-    it('should verify passwordDelegate contract and send success', function (done) {
-        service.verify(passwordDelegateContract.address, "Willem456", function(err, event){
+    it('should verify password after change and send success', function (done) {
+        service.verify(passwordChallengeContract.address, "Willem456", function(err, event){
             assert.equal('success', event);
+            done();
+        });
+    });
+
+    it('should verify wrong password after change and send error', function (done) {
+        service.verify(passwordChallengeContract.address, "Willem123", function(err, event){
+            assert.equal('error', event);
             done();
         });
     });
