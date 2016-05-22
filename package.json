@@ -1,0 +1,27 @@
+{
+  "name": "praetorian-service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wilmveel/praetorian-service.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wilmveel/praetorian-service/issues"
+  },
+  "homepage": "https://github.com/wilmveel/praetorian-service#readme",
+  "dependencies": {
+    "async": "^2.0.0-rc.5",
+    "ethereumjs-testrpc": "^2.0.7",
+    "ethereumjs-util": "^4.4.1",
+    "secp256k1": "^3.1.0",
+    "solc": "^0.3.2-1",
+    "web3": "^0.16.0"
+  }
+}
