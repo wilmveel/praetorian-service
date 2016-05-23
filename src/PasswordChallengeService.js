@@ -141,19 +141,25 @@ module.exports = function (contract) {
             });
         },
 
-        authorize: function (address, password, AccessAdress, callback) {
+        authorize: function (address, password, access, callback) {
+            console.log('authorize', address);
 
             contract._eth.contract(abi).at(address, function (err, contract) {
                 if (err) callback(err)
                 else if (contract.address) {
 
+                    console.log(contract.address);
+
                     createSign(password, contract, function (err, sign) {
+                        console.log(sign);
                         if (err) return callback(err);
                         contract.authorize.estimateGas(function (err, gas) {
+                            console.log(gas);
                             if (err) return callback(err);
-                            contract.authorize(sign.v, sign.r, sign.s, AccessAdress, {
-                                gas: (gas * 2)
+                            contract.authorize(sign.v, sign.r, sign.s, access, {
+                                gas: (gas * 5)
                             }, function (err, transactionHash) {
+                                console.log(transactionHash);
                                 if (err) return callback(err);
                                 var events = contract.allEvents();
                                 events.watch(function (err, event) {

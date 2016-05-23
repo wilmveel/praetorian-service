@@ -9,9 +9,10 @@ describe('AuthorizeByPasswordChallenge', function () {
 
     var accessService;
     
-    var PasswordService;
-    
+    var passwordService;
     var accessAddress;
+
+    var passwordChallengeContract;
 
     before(function (done) {
         helper.init(done)
@@ -20,17 +21,10 @@ describe('AuthorizeByPasswordChallenge', function () {
     before(function (done) {
         helper.deploy(function (err, contract) {
             if (err) return done(err)
-            //AccessService = new AccessService(contract);
-            PasswordService = new PasswordChallengeService(contract);
+            accessService = new AccessService(contract);
+            passwordService = new PasswordChallengeService(contract);
             done();
         });  
-    });
-        before(function (done) {
-        helper.deploy(function (err, contract) {
-            if (err) return done(err)
-            accessService = new AccessService(contract);
-            done();
-        });
     });
     
     
@@ -43,16 +37,16 @@ describe('AuthorizeByPasswordChallenge', function () {
     });
     
     it('should create passwordChallenge contract', function (done) {
-        PasswordService.create("Willem123", function(err, contract){
+        passwordService.create("Willem123", function(err, contract){
             if(err) return done(err)
-            passwordChallengeContract = contract
+            passwordChallengeContract = contract;
             done();
         });
     });
     
     
     it('should validate a wallet with a passwordChallenge in an Access contract', function(done){
-        PasswordService.authorize(passwordChallengeContract, "Willem123", accessAddress, function(err, success){
+        passwordService.authorize(passwordChallengeContract, "Willem123", accessAddress, function(err, success){
             if(err) return (done(err))
             done();
         })
