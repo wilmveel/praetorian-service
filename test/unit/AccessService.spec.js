@@ -1,7 +1,7 @@
 
 var assert = require('assert');
 var Helper = require('../Helper');
-var AccessService = require('../../src/accessService');
+var AccessService = require('../../src/AccessService');
 
 describe('services', function () {
 
