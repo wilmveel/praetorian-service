@@ -9,10 +9,18 @@ require.extensions['.sol'] = function (module, filename) {
 
 var web3 = new Web3();
 
-var httpProvider = new web3.providers.HttpProvider("http://128.199.53.68:8545");
-var testProvider = TestRPC.provider();
+if(process.env.PROVIDER == 'LIVE'){
+    var httpProvider = new web3.providers.HttpProvider("http://128.199.53.68:8545");
+    web3.setProvider(httpProvider);
+} else{
+    var testProvider = TestRPC.provider();
+    web3.setProvider(testProvider);
+}
 
-web3.setProvider(testProvider);
+
+
+
+
 
 var contracts = require('praetorian-contracts');
 var compiled = solc.compile(contracts, 1).contracts;
