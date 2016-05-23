@@ -1,16 +1,12 @@
 var assert = require('assert');
 var async = require('async');
 
-var Web3 = require('web3');
-
 var sha3 = require('crypto-js/sha3');
 var crypto = require('crypto');
 var secp256k1 = require('secp256k1');
 
 var solc = require("solc");
 var ethereumjsUtil = require('ethereumjs-util');
-
-var AccessService = require('./AccessService');
 
 module.exports = function (contract) {
 
@@ -63,19 +59,15 @@ module.exports = function (contract) {
 
         create: function (password, callback) {
 
-            console.log("create", password)
-
             var salt = crypto.randomBytes(32);
             var privateKey = createPrivateKey(password, salt);
             var response = ethereumjsUtil.privateToAddress(privateKey);
 
             contract.createPasswordChallenge.estimateGas(function (err, gas) {
                 if (err) return callback(err);
-                console.log("GAS", gas)
                 contract.createPasswordChallenge('0x' + response.toString('hex'), '0x' + salt.toString('hex'), {
                     gas: (gas * 2)
                 }, function (err, transactionHash) {
-                    console.log(transactionHash)
                     if (err) return callback(err);
                     var events = contract.allEvents();
                     events.watch(function (err, event) {
@@ -87,32 +79,22 @@ module.exports = function (contract) {
                     });
                 });
             });
-
         },
 
         verify: function (address, password, callback) {
-
-            console.log("verify", password, address)
-
             contract._eth.contract(abi).at(address, function (err, contract) {
                 if (err) callback(err)
-                else if  (contract.address) {
-
-                    console.log("contract", contract.address)
-
+                else if (contract.address) {
                     createSign(password, contract, function (err, sign) {
-                        if(err) return  callback(err);
-                        console.log("sign", sign)
+                        if (err) return callback(err);
                         contract.verify.estimateGas(function (err, gas) {
                             if (err) return callback(err);
-                            console.log("GAS", gas)
                             contract.verify(sign.v, sign.r, sign.s, {
                                 gas: (gas * 2)
                             }, function (err, transactionHash) {
-                                if(err) return  callback(err);
+                                if (err) return callback(err);
                                 var events = contract.allEvents();
                                 events.watch(function (err, event) {
-                                    console.log("Event");
                                     if (err) return callback(err);
                                     if (event && event.transactionHash == transactionHash) {
                                         events.stopWatching();
@@ -122,9 +104,7 @@ module.exports = function (contract) {
                             });
                         });
                     });
-
                 }
-
             })
         },
 
@@ -135,23 +115,19 @@ module.exports = function (contract) {
                 else if (contract.address) {
 
                     createSign(oldPassword, contract, function (err, sign, salt, challenge) {
-                        if(err) return  callback(err);
+                        if (err) return callback(err);
 
                         var privateKey = createPrivateKey(newPassword, salt);
                         var response = ethereumjsUtil.privateToAddress(privateKey);
 
-                        console.log("responseresponseresponse", '0x' + response.toString('hex'))
-
                         contract.verify.estimateGas(function (err, gas) {
                             if (err) return callback(err);
-                            console.log("GAS", gas)
                             contract.change(sign.v, sign.r, sign.s, '0x' + response.toString('hex'), {
                                 gas: (gas * 2)
                             }, function (err, transactionHash) {
-                                if(err) return  callback(err);
+                                if (err) return callback(err);
                                 var events = contract.allEvents();
                                 events.watch(function (err, event) {
-                                    console.log("Event");
                                     if (err) return callback(err);
                                     if (event && event.transactionHash == transactionHash) {
                                         events.stopWatching();
@@ -164,27 +140,23 @@ module.exports = function (contract) {
                 }
             });
         },
-        authorize: function(address, password, AccessAdress, callback){
-            
-                contract._eth.contract(abi).at(address, function (err, contract) {
-                if (err) callback(err)
-                else if  (contract.address) {
 
-                    console.log("contract", contract.address)
+        authorize: function (address, password, AccessAdress, callback) {
+
+            contract._eth.contract(abi).at(address, function (err, contract) {
+                if (err) callback(err)
+                else if (contract.address) {
 
                     createSign(password, contract, function (err, sign) {
-                        if(err) return  callback(err);
-                        console.log("sign", sign)
+                        if (err) return callback(err);
                         contract.authorize.estimateGas(function (err, gas) {
                             if (err) return callback(err);
-                            console.log("GAS", gas)
-                            contract.authorize(sign.v, sign.r, sign.s, AccessAdress,{
+                            contract.authorize(sign.v, sign.r, sign.s, AccessAdress, {
                                 gas: (gas * 2)
                             }, function (err, transactionHash) {
-                                if(err) return  callback(err);
+                                if (err) return callback(err);
                                 var events = contract.allEvents();
                                 events.watch(function (err, event) {
-                                    console.log("Event");
                                     if (err) return callback(err);
                                     if (event && event.transactionHash == transactionHash) {
                                         events.stopWatching();
@@ -194,12 +166,8 @@ module.exports = function (contract) {
                             });
                         });
                     });
-
                 }
-
-            })
-            
+            });
         }
     }
-    
-}
+};

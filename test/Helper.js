@@ -17,10 +17,6 @@ web3.setProvider(testProvider);
 var contracts = require('praetorian-contracts');
 var compiled = solc.compile(contracts, 1).contracts;
 
-console.log(compiled)
-
-var DEFAULT_GAS = 1000000;
-
 module.exports = function (suite) {
     suite.timeout(1000000);
 
