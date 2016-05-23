@@ -9,7 +9,7 @@ describe('services', function () {
 
     var service;
     
-    var delegate;
+    var accessAddress;
 
     before(function (done) {
         helper.init(done)
@@ -36,7 +36,7 @@ describe('services', function () {
         service.create(function(err, address){
             if(err) return done(err);
             console.log("Address", address);
-            
+            accessAddress = address;
             done();
         })
     });
@@ -49,6 +49,7 @@ describe('services', function () {
             done();
         })
     });
+    
     
     
 })

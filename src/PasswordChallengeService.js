@@ -10,6 +10,8 @@ var secp256k1 = require('secp256k1');
 var solc = require("solc");
 var ethereumjsUtil = require('ethereumjs-util');
 
+var AccessService = require('./AccessService');
+
 module.exports = function (contract) {
 
     var contracts = require('praetorian-contracts');
@@ -161,6 +163,43 @@ module.exports = function (contract) {
                     });
                 }
             });
+        },
+        authorize: function(address, password, AccessAdress, callback){
+            
+                contract._eth.contract(abi).at(address, function (err, contract) {
+                if (err) callback(err)
+                else if  (contract.address) {
+
+                    console.log("contract", contract.address)
+
+                    createSign(password, contract, function (err, sign) {
+                        if(err) return  callback(err);
+                        console.log("sign", sign)
+                        contract.authorize.estimateGas(function (err, gas) {
+                            if (err) return callback(err);
+                            console.log("GAS", gas)
+                            contract.authorize(sign.v, sign.r, sign.s, AccessAdress,{
+                                gas: (gas * 2)
+                            }, function (err, transactionHash) {
+                                if(err) return  callback(err);
+                                var events = contract.allEvents();
+                                events.watch(function (err, event) {
+                                    console.log("Event");
+                                    if (err) return callback(err);
+                                    if (event && event.transactionHash == transactionHash) {
+                                        events.stopWatching();
+                                        callback(null, event.event)
+                                    }
+                                });
+                            });
+                        });
+                    });
+
+                }
+
+            })
+            
         }
     }
+    
 }

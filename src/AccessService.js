@@ -1,4 +1,10 @@
 module.exports = function(contract){
+    
+    // var contracts = require('praetorian-contracts');
+    // var compiled = solc.compile(contracts, 1).contracts;
+
+    // var abi = JSON.parse(compiled.Access.interface);
+    
     return {
         
         find:function(callback){
@@ -24,6 +30,19 @@ module.exports = function(contract){
                     })
                 })
             })
-        }
+        },
+        
+        // getAuthorization:function(address, callback){
+        //     contract._eth.contract(abi).at(address, function (err, contract) {
+        //         if (err) callback(err)
+        //         else if  (contract.address) {
+
+        //             console.log("contract", contract.address)
+                    
+        //         }
+        //     })
+
+            
+        // }
     }
 }
