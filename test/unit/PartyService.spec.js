@@ -24,7 +24,6 @@ describe('services', function () {
     it('should create party one contract', function (done) {
         service.create(function (err, address) {
             if (err) return done(err);
-            console.log("Address", address)
             done();
         });
     });
@@ -40,8 +39,7 @@ describe('services', function () {
                 }
             },
             function (err, results) {
-                assert.notEqual(results.one, results.two)
-                console.log(results)
+                assert.notEqual(results.one, results.two);
                 done();
             });
 
@@ -50,7 +48,6 @@ describe('services', function () {
     it('should have created three parties', function (done) {
 
         service.list(function (err, parties) {
-            console.log(parties)
             done();
         });
 

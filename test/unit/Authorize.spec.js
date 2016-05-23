@@ -22,7 +22,6 @@ describe('services', function () {
             if (err) return done(err)
             //AccessService = new AccessService(contract);
             PasswordService = new PasswordChallengeService(contract);
-            console.log('services created')
             done();
         });  
     });
@@ -38,7 +37,6 @@ describe('services', function () {
     it('should create an access contract', function(done){
         accessService.create(function(err, address){
             if(err) return done(err);
-            console.log("Address", address);
             accessAddress = address;
             done();
         })
@@ -56,7 +54,6 @@ describe('services', function () {
     it('should validate a wallet with a passwordChallenge in an Access contract', function(done){
         PasswordService.authorize(passwordChallengeContract, "Willem123", accessAddress, function(err, success){
             if(err) return (done(err))
-            console.log(success)
             done();
         })
     })

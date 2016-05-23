@@ -27,7 +27,6 @@ describe('services', function () {
         service.find(function(err, address){
             if(err) return done(err);
             assert(address.toString('hex') === '0x0000000000000000000000000000000000000000');
-            console.log(address);
             done();
         })
     })
@@ -35,7 +34,6 @@ describe('services', function () {
     it('should create an access contract', function(done){
         service.create(function(err, address){
             if(err) return done(err);
-            console.log("Address", address);
             accessAddress = address;
             done();
         })
@@ -45,7 +43,6 @@ describe('services', function () {
         service.find(function(err, access){
             if(err) return done(err);
             assert(access.toString('hex') !== '0x0000000000000000000000000000000000000000');
-            console.log(access);
             done();
         })
     });
