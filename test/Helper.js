@@ -12,15 +12,12 @@ var web3 = new Web3();
 if(process.env.PROVIDER == 'LIVE'){
     var httpProvider = new web3.providers.HttpProvider("http://128.199.53.68:8545");
     web3.setProvider(httpProvider);
-} else{
+}
+
+if(process.env.PROVIDER == 'TEST'){
     var testProvider = TestRPC.provider();
     web3.setProvider(testProvider);
 }
-
-
-
-
-
 
 var contracts = require('praetorian-contracts');
 var compiled = solc.compile(contracts, 1).contracts;
