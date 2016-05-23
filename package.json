@@ -1,10 +1,10 @@
 {
-  "name": "praetorian-service",
+  "name": "praetorian-services",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node_modules/mocha/bin/mocha test/unit"
   },
   "repository": {
     "type": "git",
@@ -23,5 +23,8 @@
     "secp256k1": "^3.1.0",
     "solc": "^0.3.2-1",
     "web3": "^0.16.0"
+  },
+  "devDependencies": {
+    "mocha": "^2.5.1"
   }
 }
