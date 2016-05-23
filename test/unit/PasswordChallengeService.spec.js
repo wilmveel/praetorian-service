@@ -4,7 +4,7 @@ var Helper = require('../Helper');
 
 var PasswordChallengeService = require('../../src/PasswordChallengeService');
 
-describe('services', function () {
+describe('PasswordChallengeService', function () {
 
     var helper = new Helper(this);
 

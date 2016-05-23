@@ -3,7 +3,7 @@ var assert = require('assert');
 var Helper = require('../Helper');
 var PartyService = require('../../src/PartyService');
 
-describe('services', function () {
+describe('PartyService', function () {
 
     var helper = new Helper(this);
 
