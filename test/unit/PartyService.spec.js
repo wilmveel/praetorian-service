@@ -1,7 +1,7 @@
 var async = require('async');
 var assert = require('assert');
 var Helper = require('../Helper');
-var PartyService = require('../../src/partyService');
+var PartyService = require('../../src/PartyService');
 
 describe('services', function () {
 
