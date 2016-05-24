@@ -1,10 +1,5 @@
 module.exports = function(contract){
-    
-    // var contracts = require('praetorian-contracts');
-    // var compiled = solc.compile(contracts, 1).contracts;
 
-    // var abi = JSON.parse(compiled.Access.interface);
-    
     return {
         
         find:function(callback){

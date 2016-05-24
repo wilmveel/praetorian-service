@@ -5,15 +5,9 @@ var sha3 = require('crypto-js/sha3');
 var crypto = require('crypto');
 var secp256k1 = require('secp256k1');
 
-var solc = require("solc");
 var ethereumjsUtil = require('ethereumjs-util');
 
-module.exports = function (contract) {
-
-    var contracts = require('praetorian-contracts');
-    var compiled = solc.compile(contracts, 1).contracts;
-
-    var abi = JSON.parse(compiled.PasswordChallenge.interface);
+module.exports = function (contract, abi) {
 
     function createPrivateKey(password, salt) {
         var hash = sha3(password.toString('hex') + salt.toString('hex'), {outputLength: 256}).toString();

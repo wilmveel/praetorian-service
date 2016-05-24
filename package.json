@@ -21,7 +21,9 @@
     "crypto-js": "^3.1.6",
     "ethereumjs-testrpc": "^2.0.7",
     "ethereumjs-util": "^4.4.1",
+    "json-loader": "^0.5.4",
     "praetorian-contracts": "wilmveel/praetorian-contracts",
+    "raw-loader": "^0.5.1",
     "secp256k1": "^3.1.0",
     "solc": "^0.3.2-1",
     "web3": "^0.16.0"

@@ -15,9 +15,10 @@ describe('PasswordChallengeService', function () {
     });
 
     before(function (done) {
-        helper.deploy(function (err, contract) {
+        helper.deploy(function (err, contract, compiled) {
             if (err) return done(err)
-            service = new PasswordChallengeService(contract);
+            var abi = JSON.parse(compiled.PasswordChallenge.interface);
+            service = new PasswordChallengeService(contract, abi);
             done();
         });
     });

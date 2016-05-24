@@ -46,7 +46,7 @@ module.exports = function (suite) {
             }, function (err, contract) {
                 if (err) callback(err);
                 else if (contract.address) {
-                    callback(null, contract);
+                    callback(null, contract, compiled);
                 }
             });
 

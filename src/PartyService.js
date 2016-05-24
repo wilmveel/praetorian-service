@@ -1,5 +1,5 @@
 module.exports = function (contract) {
-
+console.log(contract);
     return {
 
         list: function (callback) {
