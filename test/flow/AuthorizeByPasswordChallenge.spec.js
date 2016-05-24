@@ -22,7 +22,9 @@ describe('AuthorizeByPasswordChallenge', function () {
         helper.deploy(function (err, contract) {
             if (err) return done(err)
             accessService = new AccessService(contract);
-            passwordService = new PasswordChallengeService(contract);
+
+            var PasswordChallengeAbi = JSON.parse(compiled.PasswordChallenge.interface);
+            passwordService = new PasswordChallengeService(contract, PasswordChallengeAbi);
             done();
         });  
     });
