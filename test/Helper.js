@@ -1,11 +1,11 @@
 var Web3 = require('web3');
-var solc = require('solc');
+//var solc = require('solc');
 var TestRPC = require("ethereumjs-testrpc");
 
 var fs = require('fs');
-require.extensions['.sol'] = function (module, filename) {
-    module.exports = fs.readFileSync(filename, 'utf8');
-};
+// require.extensions['.sol'] = function (module, filename) {
+//     module.exports = fs.readFileSync(filename, 'utf8');
+// };
 
 var web3 = new Web3();
 
@@ -22,7 +22,7 @@ if(process.env.PROVIDER == 'TEST'){
 }
 
 var contracts = require('praetorian-contracts');
-var compiled = solc.compile(contracts, 1).contracts;
+var compiled = contracts//solc.compile(contracts, 1).contracts;
 
 module.exports = function (suite) {
     suite.timeout(1000000);
