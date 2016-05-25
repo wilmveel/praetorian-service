@@ -31,7 +31,7 @@ describe('AuthorizeByPasswordChallenge', function () {
     
     
     it('should create an access contract', function(done){
-        accessService.create(function(err, address){
+        accessService.find(function(err, address){
             if(err) return done(err);
             accessAddress = address;
             done();
