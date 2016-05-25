@@ -13,6 +13,8 @@ describe('AuthorizeByPasswordChallenge', function () {
     var accessAddress;
 
     var passwordChallengeContract;
+    
+    var walletAddress;
 
     before(function (done) {
         helper.init(done)
@@ -29,9 +31,17 @@ describe('AuthorizeByPasswordChallenge', function () {
         });  
     });
     
+    before(function(done){
+        helper.web3.eth.getCoinbase(function(err, coinbase){
+                if (err) console.log(err);
+                
+                walletAddress = coinbase;
+                done()
+            })
+    })
     
     it('should create an access contract', function(done){
-        accessService.find(function(err, address){
+        accessService.find(walletAddress, function(err, address){
             if(err) return done(err);
             accessAddress = address;
             done();

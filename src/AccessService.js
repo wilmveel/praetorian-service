@@ -2,8 +2,8 @@ module.exports = function(contract){
 
     return {
         
-        find:function(callback){
-            contract.getAccess(function(err, access){
+        find:function(wallet, callback){
+            contract.getAccess(wallet, function(err, access){
                 callback(err, access);
             })
         },
