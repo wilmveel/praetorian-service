@@ -13,6 +13,8 @@ describe('AuthorizeByPasswordChallenge', function () {
     var accessAddress;
 
     var passwordChallengeContract;
+    
+    var walletAddress;
 
     before(function (done) {
         helper.init(done)
@@ -29,7 +31,7 @@ describe('AuthorizeByPasswordChallenge', function () {
     
     
     xit('should create an access contract', function(done){
-        accessService.create(function(err, address){
+        accessService.find(walletAddress, function(err, address){
             if(err) return done(err);
             accessAddress = address;
             done();
