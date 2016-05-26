@@ -7,7 +7,9 @@ var secp256k1 = require('secp256k1');
 
 var ethereumjsUtil = require('ethereumjs-util');
 
-module.exports = function (contract, abi) {
+module.exports = function (factory, contract) {
+
+    var abi = JSON.parse(contract.interface);
 
     function createPrivateKey(password, salt) {
         var hash = sha3(password.toString('hex') + salt.toString('hex'), {outputLength: 256}).toString();
@@ -15,7 +17,6 @@ module.exports = function (contract, abi) {
     }
 
     function createSign(password, contract, callback) {
-
 
         async.parallel({
                 salt: function (callback) {
@@ -57,13 +58,13 @@ module.exports = function (contract, abi) {
             var privateKey = createPrivateKey(password, salt);
             var response = ethereumjsUtil.privateToAddress(privateKey);
 
-            contract.createPasswordChallenge.estimateGas(function (err, gas) {
+            factory.createPasswordChallenge.estimateGas(function (err, gas) {
                 if (err) return callback(err);
-                contract.createPasswordChallenge('0x' + response.toString('hex'), '0x' + salt.toString('hex'), {
+                factory.createPasswordChallenge('0x' + response.toString('hex'), '0x' + salt.toString('hex'), {
                     gas: (gas * 2)
                 }, function (err, transactionHash) {
                     if (err) return callback(err);
-                    var events = contract.allEvents();
+                    var events = factory.allEvents();
                     events.watch(function (err, event) {
                         if (err) return callback(err);
                         if (event && event.transactionHash == transactionHash) {
@@ -76,7 +77,7 @@ module.exports = function (contract, abi) {
         },
 
         verify: function (address, password, callback) {
-            contract._eth.contract(abi).at(address, function (err, contract) {
+            factory._eth.contract(abi).at(address, function (err, contract) {
                 if (err) callback(err)
                 else if (contract.address) {
                     createSign(password, contract, function (err, sign) {
@@ -104,7 +105,7 @@ module.exports = function (contract, abi) {
 
         change: function (address, oldPassword, newPassword, callback) {
 
-            contract._eth.contract(abi).at(address, function (err, contract) {
+            factory._eth.contract(abi).at(address, function (err, contract) {
                 if (err) callback(err)
                 else if (contract.address) {
 
@@ -136,24 +137,18 @@ module.exports = function (contract, abi) {
         },
 
         authorize: function (address, password, access, callback) {
-            console.log('authorize', address);
 
-            contract._eth.contract(abi).at(address, function (err, contract) {
+            factory._eth.contract(abi).at(address, function (err, contract) {
                 if (err) callback(err)
                 else if (contract.address) {
 
-                    console.log(contract.address);
-
                     createSign(password, contract, function (err, sign) {
-                        console.log(sign);
                         if (err) return callback(err);
                         contract.authorize.estimateGas(function (err, gas) {
-                            console.log(gas);
                             if (err) return callback(err);
                             contract.authorize(sign.v, sign.r, sign.s, access, {
                                 gas: (gas * 5)
                             }, function (err, transactionHash) {
-                                console.log(transactionHash);
                                 if (err) return callback(err);
                                 var events = contract.allEvents();
                                 events.watch(function (err, event) {

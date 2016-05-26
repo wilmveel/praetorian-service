@@ -1,17 +1,17 @@
-module.exports = function(contract){
+module.exports = function(factory){
 
     return {
         
         find:function(callback){
-            contract.getAccess(function(err, access){
+            factory.getAccess(function(err, access){
                 callback(err, access);
             })
         },
         
         create:function(callback){
-            contract.createAccess.estimateGas(function(err, gas){
+            factory.createAccess.estimateGas(function(err, gas){
                 if(err) return callback(err);
-                contract.createAccess({
+                factory.createAccess({
                     gas: (gas * 2)
                 }, function(err, transactionHash) {
                     if(err) return callback(err);

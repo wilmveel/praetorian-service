@@ -23,7 +23,7 @@ describe('AccessService', function () {
         });
     });
     
-    it('should return a hexidecimal zero', function(done){
+    xit('should return a hexidecimal zero', function(done){
         service.find(function(err, address){
             if(err) return done(err);
             assert(address.toString('hex') === '0x0000000000000000000000000000000000000000');
@@ -31,7 +31,7 @@ describe('AccessService', function () {
         })
     })
     
-    it('should create an access contract', function(done){
+    xit('should create an access contract', function(done){
         service.create(function(err, address){
             if(err) return done(err);
             accessAddress = address;

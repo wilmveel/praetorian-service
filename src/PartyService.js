@@ -1,21 +1,21 @@
-module.exports = function (contract) {
-console.log(contract);
+module.exports = function (factory) {
+
     return {
 
         list: function (callback) {
-            contract.getParties(function(err, parties){
+            factory.getParties(function(err, parties){
                 callback(err, parties);
             });
         },
 
         create: function (callback) {
-            contract.createParty.estimateGas(function (err, gas) {
+            factory.createParty.estimateGas(function (err, gas) {
                 if (err) return callback(err);
-                contract.createParty({
+                factory.createParty({
                     gas: (gas * 2)
                 }, function (err, transactionHash) {
                     if (err) return callback(err);
-                    var events = contract.allEvents();
+                    var events = factory.allEvents();
                     events.watch(function (err, event) {
                         if (err) return callback(err);
                         if (event && event.transactionHash == transactionHash) {
