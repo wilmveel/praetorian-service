@@ -34,15 +34,8 @@ describe('AccessService', function () {
         })
     })
 
-    xit('should return a hexidecimal zero', function (done) {
-        service.find(function (err, address) {
-            if (err) return done(err);
-            assert(address.toString('hex') === '0x0000000000000000000000000000000000000000');
-            done();
-        })
-    })
 
-    xit('should create an access contract', function (done) {
+    it('should create an access contract', function (done) {
         service.find(walletAddress, function (err, address) {
             if (err) return done(err);
 
@@ -53,7 +46,7 @@ describe('AccessService', function () {
         })
     });
 
-    xit('should give the access contract', function (done) {
+    it('should give the access contract', function (done) {
         service.find(walletAddress, function (err, access) {
             if (err) return done(err);
             assert(accessAddress.toString('hex') === access.toString('hex'));
