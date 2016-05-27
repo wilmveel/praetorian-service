@@ -40,7 +40,7 @@ describe('AccessService', function () {
 
     it('should create an access contract', function (done) {
         console.log(service)
-        service.find(function (err, address) {
+        service.find(walletAddress, function (err, address) {
             if (err) return done(err);
             accessAddress = address;
             assert(address.toString('hex') !== '0x0000000000000000000000000000000000000000');
@@ -49,7 +49,7 @@ describe('AccessService', function () {
     });
 
     it('should give the access contract', function (done) {
-        service.find(function (err, access) {
+        service.find(walletAddress, function (err, access) {
             if (err) return done(err);
             assert(accessAddress.toString('hex') === access.toString('hex'));
             done();

@@ -100,7 +100,7 @@ module.exports = function (factory, contract) {
                         });
                     });
                 }
-            })
+            });
         },
 
         change: function (address, oldPassword, newPassword, callback) {
@@ -136,18 +136,17 @@ module.exports = function (factory, contract) {
             });
         },
 
-        authorize: function (address, password, access, callback) {
+        authorize: function (address, password, callback) {
 
             factory._eth.contract(abi).at(address, function (err, contract) {
                 if (err) callback(err)
                 else if (contract.address) {
-
                     createSign(password, contract, function (err, sign) {
                         if (err) return callback(err);
-                        contract.authorize.estimateGas(function (err, gas) {
+                        contract.auth.estimateGas(function (err, gas) {
                             if (err) return callback(err);
-                            contract.authorize(sign.v, sign.r, sign.s, access, {
-                                gas: (gas * 5)
+                            contract.auth(sign.v, sign.r, sign.s, {
+                                gas: (gas * 2)
                             }, function (err, transactionHash) {
                                 if (err) return callback(err);
                                 var events = contract.allEvents();
