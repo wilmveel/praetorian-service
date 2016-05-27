@@ -8,7 +8,6 @@ module.exports = function(factory){
                 factory.findAccess({
                     gas: (gas * 2)
                 }, function (err, transactionHash) {
-                    console.log(transactionHash)
                     if (err) return callback(err);
                     var events = factory.allEvents();
                     events.watch(function (err, event) {

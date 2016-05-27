@@ -11,28 +11,28 @@ describe('PasswordChallengeService', function () {
     var service;
 
     before(function (done) {
-        helper.init(done)
+        helper.init(done);
     });
 
     before(function (done) {
-        helper.deploy(function (err, factory, compiled) {
-            if (err) return done(err)
-            var contract = compiled.PasswordChallenge;
-            service = new PasswordChallengeService(factory, contract);
+        helper.deploy(function (err, services) {
+            if (err) return done(err);
+            service = services.passwordChallengeService;
             done();
         });
     });
 
     it('should create passwordChallenge contract', function (done) {
         service.create("Willem123", function(err, contract){
-            if(err) return done(err)
-            passwordChallengeContract = contract
+            if(err) return done(err);
+            passwordChallengeContract = contract;
             done();
         });
     });
 
     it('should verify passwordChallenge contract and send success', function (done) {
         service.verify(passwordChallengeContract, "Willem123", function(err, event){
+            if(err) return done(err);
             assert.equal('success', event);
             done();
         });
@@ -40,6 +40,7 @@ describe('PasswordChallengeService', function () {
 
     it('should verify passwordChallenge contract and send success', function (done) {
         service.verify(passwordChallengeContract, "Willem456", function(err, event){
+            if(err) return done(err);
             assert.equal('error', event);
             done();
         });
@@ -47,6 +48,7 @@ describe('PasswordChallengeService', function () {
 
     it('should change password', function (done) {
         service.change(passwordChallengeContract, "Willem123", "Willem456", function(err, event){
+            if(err) return done(err);
             assert.equal('success', event);
             done();
         });
@@ -54,6 +56,7 @@ describe('PasswordChallengeService', function () {
 
     it('should verify password after change and send success', function (done) {
         service.verify(passwordChallengeContract, "Willem456", function(err, event){
+            if(err) return done(err);
             assert.equal('success', event);
             done();
         });
@@ -61,6 +64,7 @@ describe('PasswordChallengeService', function () {
 
     it('should verify wrong password after change and send error', function (done) {
         service.verify(passwordChallengeContract, "Willem123", function(err, event){
+            if(err) return done(err);
             assert.equal('error', event);
             done();
         });

@@ -1,7 +1,9 @@
 var Web3 = require('web3');
 var TestRPC = require("ethereumjs-testrpc");
+var Service = require('../index');
 
 var web3 = new Web3();
+var service = new Service(web3);
 
 if(!process.env.PROVIDER) process.env.PROVIDER = 'TEST';
 
@@ -15,35 +17,20 @@ if(process.env.PROVIDER == 'TEST'){
     web3.setProvider(testProvider);
 }
 
-var compiled = require('praetorian-contracts');
-
 module.exports = function (suite) {
     suite.timeout(1000000);
 
     return {
         init: function (callback) {
             web3.eth.getCoinbase(function (err, coinbase) {
+                if(err) return callback(err);
                 web3.eth.defaultAccount = coinbase
-                callback();
+                callback(null, web3);
             });
         },
+
         deploy: function (callback) {
-
-            var abi = JSON.parse(compiled.Factory.interface);
-            var code = compiled.Factory.bytecode;
-            var gas = compiled.Factory.gasEstimates.creation[1];
-
-            web3.eth.contract(abi).new({
-                gas: gas * 2,
-                data: code
-            }, function (err, contract) {
-                if (err) callback(err);
-                else if (contract.address) {
-                    callback(null, contract, compiled);
-                }
-            });
-
-        },
-        web3: web3
+            service.init(null, callback)
+        }
     };
 };

@@ -21,12 +21,12 @@ describe('AuthorizeByPasswordChallenge', function () {
     });
 
     before(function (done) {
-        helper.deploy(function (err, factroy, compiled) {
-            if (err) return done(err)
-            accessService = new AccessService(factroy);
-            passwordService = new PasswordChallengeService(factroy, compiled.PasswordChallenge);
+        helper.deploy(function (err, services) {
+            if (err) return done(err);
+            accessService = services.accessService;
+            passwordService = services.passwordChallengeService;
             done();
-        });  
+        });
     });
     
     
@@ -38,7 +38,7 @@ describe('AuthorizeByPasswordChallenge', function () {
         })
     });
     
-    it('should create passwordChallenge contract', function (done) {
+    xit('should create passwordChallenge contract', function (done) {
         passwordService.create("Willem123", function(err, contract){
             if(err) return done(err)
             passwordChallengeContract = contract;
@@ -52,10 +52,6 @@ describe('AuthorizeByPasswordChallenge', function () {
             if(err) return (done(err))
             done();
         })
-    })
-    
-    // it('should have one authorization on the access contract', function(done){
-        
-    // })
+    });
     
 })

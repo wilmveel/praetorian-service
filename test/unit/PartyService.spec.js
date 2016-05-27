@@ -3,7 +3,7 @@ var assert = require('assert');
 var Helper = require('../Helper');
 var PartyService = require('../../src/PartyService');
 
-describe('PartyService', function () {
+describe('index', function () {
 
     var helper = new Helper(this);
 
@@ -14,9 +14,9 @@ describe('PartyService', function () {
     });
 
     before(function (done) {
-        helper.deploy(function (err, contract) {
-            if (err) return done(err)
-            service = new PartyService(contract);
+        helper.deploy(function (err, services) {
+            if (err) return done(err);
+            service = services.partyService;
             done();
         });
     });

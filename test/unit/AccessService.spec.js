@@ -6,6 +6,7 @@ describe('AccessService', function () {
 
     var helper = new Helper(this);
 
+    var web3;
     var service;
 
     var accessAddress;
@@ -14,31 +15,32 @@ describe('AccessService', function () {
 
 
     before(function (done) {
-        helper.init(done)
+        helper.init(function(err, w3){
+            web3 = w3;
+            done();
+        })
     });
 
     before(function (done) {
-        helper.deploy(function (err, contract) {
-            if (err) return done(err)
-            service = new AccessService(contract);
+        helper.deploy(function (err, services) {
+            if (err) return done(err);
+            service = services.accessService;
             done();
         });
     });
 
     before(function (done) {
-        helper.web3.eth.getCoinbase(function (err, coinbase) {
-            if (err) console.log(err);
-
+        web3.eth.getCoinbase(function (err, coinbase) {
+            if (err) done(err);
             walletAddress = coinbase;
             done()
         })
-    })
+    });
 
 
     it('should create an access contract', function (done) {
         service.find(function (err, address) {
             if (err) return done(err);
-            console.log(address);
             accessAddress = address;
             assert(address.toString('hex') !== '0x0000000000000000000000000000000000000000');
             done();
