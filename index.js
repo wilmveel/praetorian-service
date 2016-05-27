@@ -20,14 +20,22 @@ module.exports = function (web3) {
             else factoryContract.new({gas: (gas * 2), data: code}, cb);
 
             function cb(err, contract) {
-                if(err) return callback(err)
-                if(contract.address){
+                if (err) return callback(err)
+                if (contract.address) {
+
                     var services = {
                         accessService: new AccessService(contract),
                         partyService: new PartyService(contract),
                         passwordChallengeService: new PasswordChallengeService(contract, compiled.PasswordChallenge)
                     };
-                    callback(null, services)
+
+                    var app = {
+                        address: contract.address,
+                        compiled: compiled,
+                        services: services
+                    };
+
+                    callback(null, app)
                 }
 
             }
