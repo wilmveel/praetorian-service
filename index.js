@@ -14,7 +14,6 @@ module.exports = function (web3, factoryAddress) {
 
     if (factoryAddress) factroyContract.at(factoryAddress, callback)
     else factroyContract.new({gas: 2000000, data: code}, callback);
-
     function callback(err, contract) {
         console.log('contract', contract.address);
         services = {
