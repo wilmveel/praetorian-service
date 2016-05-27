@@ -2,6 +2,7 @@ var Web3 = require('web3');
 var TestRPC = require("ethereumjs-testrpc");
 var Service = require('../index');
 
+
 var web3 = new Web3();
 var service = new Service(web3);
 
@@ -30,7 +31,9 @@ module.exports = function (suite) {
         },
 
         deploy: function (callback) {
-            service.init(null, callback)
+            service.init(null ,function(err, app){
+                callback(null, app.services)
+            })
         }
     };
 };

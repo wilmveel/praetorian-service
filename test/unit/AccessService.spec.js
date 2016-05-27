@@ -39,6 +39,7 @@ describe('AccessService', function () {
 
 
     it('should create an access contract', function (done) {
+        console.log(service)
         service.find(function (err, address) {
             if (err) return done(err);
             accessAddress = address;
