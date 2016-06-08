@@ -22,7 +22,7 @@ describe('index', function () {
     });
 
     it('should create party one contract', function (done) {
-        service.create(function (err, address) {
+        service.create("Willem", function (err, address) {
             if (err) return done(err);
             done();
         });

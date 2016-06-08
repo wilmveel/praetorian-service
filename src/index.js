@@ -25,8 +25,8 @@ module.exports = function (web3) {
                 if (contract.address) {
 
                     var services = {
-                        accessService: new AccessService(contract),
-                        partyService: new PartyService(contract),
+                        accessService: new AccessService(contract, compiled.Access),
+                        partyService: new PartyService(contract, compiled.Party),
                         challengeService: new ChallengeService(contract, compiled.Challenge),
                         levelService: new LevelService(contract, compiled.Level)
                     };
