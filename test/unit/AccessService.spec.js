@@ -1,6 +1,6 @@
 var assert = require('assert');
 var Helper = require('../Helper');
-var AccessService = require('../../src/AccessService');
+var AccessService = require('../../src/services/AccessService');
 
 describe('AccessService', function () {
 
@@ -39,7 +39,6 @@ describe('AccessService', function () {
 
 
     it('should create an access contract', function (done) {
-        console.log(service)
         service.find(walletAddress, function (err, address) {
             if (err) return done(err);
             accessAddress = address;

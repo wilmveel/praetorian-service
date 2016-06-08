@@ -1,7 +1,5 @@
 var assert = require('assert');
 var Helper = require('../Helper');
-var AccessService = require('../../src/AccessService');
-var PasswordChallengeService = require('../../src/PasswordChallengeService');
 
 describe('AuthorizeByPasswordChallenge', function () {
 
@@ -10,8 +8,6 @@ describe('AuthorizeByPasswordChallenge', function () {
     var accessService;
     
     var passwordService;
-    var accessAddress;
-
     var passwordChallengeContract;
     
     var web3;
@@ -27,7 +23,7 @@ describe('AuthorizeByPasswordChallenge', function () {
         helper.deploy(function (err, services) {
             if (err) return done(err);
             accessService = services.accessService;
-            passwordService = services.passwordChallengeService;
+            passwordService = services.challengeService;
             done();
         });
     });

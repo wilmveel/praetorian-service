@@ -1,6 +1,6 @@
 var Web3 = require('web3');
 var TestRPC = require("ethereumjs-testrpc");
-var Service = require('../index');
+var Service = require('../src/index');
 
 
 var web3 = new Web3();
